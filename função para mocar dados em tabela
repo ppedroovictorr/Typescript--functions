@@ -1,0 +1,111 @@
+/** Constants used to fill up our data base. */
+const TYPE_MOCK: string[] = ["ADULT", "NEONATAL", "PEDIATRICS"];
+const ACTIVE_MOCK: boolean[] = [true, false];
+const GENDER_MOCK: string[] = ["MALE", "FEMALE", "UNDEFINED"];
+const BLOOD_MOCK: string[] = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const DEPARTMENT_MOCK: string[] = ["Enfermaria", "Berçário", "Pronto-socorro"];
+const PATIENTS_NAME_MOCK: string[] = [
+  "Maia",
+  "Asher",
+  "Olivia",
+  "Atticus",
+  "Amelia",
+  "Jack",
+  "Charlotte",
+  "Theodore",
+  "Isla",
+  "Oliver",
+  "Isabella",
+  "Jasper",
+  "Cora",
+  "Levi",
+  "Violet",
+  "Arthur",
+  "Mia",
+  "Thomas",
+  "Elizabeth",
+];
+const DOCTOR_NAME_MOCK: string[] = [
+  "Dra. Maia",
+  "Dr. Asher",
+  "Dra. Olivia",
+  "Dr. Atticus",
+  "Dra. Amelia",
+  "Dr. Jack",
+];
+function formatedDate(): string {
+  const curentData = new Date();
+  const day = String(Math.round(Math.random() * (31 - 1)));
+  const month = String(Math.round(Math.random() * (12 - 1)));
+  const year = String(curentData.getFullYear());
+
+  const formatedDate = `${day}/${month}/${year}`;
+  return formatedDate;
+}
+function populateTable(): IPatientData {
+  const patientName =
+    PATIENTS_NAME_MOCK[
+      Math.round(Math.random() * (PATIENTS_NAME_MOCK.length - 1))
+    ] +
+    " " +
+    PATIENTS_NAME_MOCK[
+      Math.round(Math.random() * (PATIENTS_NAME_MOCK.length - 1))
+    ].charAt(0) +
+    ".";
+
+  const doctorName =
+    DOCTOR_NAME_MOCK[Math.round(Math.random() * (DOCTOR_NAME_MOCK.length - 1))];
+
+  const n = Math.round(Math.random() * (35 - 1));
+  let v = null;
+  if (n < 10) {
+    v = "0" + String(n);
+  } else {
+    v = String(n);
+  }
+  return {
+    id: 2,
+    created_by_obj: {
+      id: 1,
+      type_user_obj: null,
+      last_login: "2023-07-19T10:39:20",
+      email: "admin@admin.com",
+      name: null,
+      username: null,
+      is_active: true,
+      is_admin: true,
+      token_notification: null,
+      forgot_password_hash: null,
+      forgot_password_expire: null,
+      created_at: "2023-06-16T11:53:07",
+      updated_at: "2023-06-16T11:53:07",
+      type_user: null,
+    },
+    name: PATIENTS_NAME_MOCK[
+      Math.round(Math.random() * (PATIENTS_NAME_MOCK.length - 1))
+    ],
+    cpf: "16150128789",
+    gender: GENDER_MOCK[Math.round(Math.random() * (GENDER_MOCK.length - 1))],
+    allergy: "dipirona",
+    sector:
+      DEPARTMENT_MOCK[Math.round(Math.random() * (DEPARTMENT_MOCK.length - 1))],
+    birth_date: "1999-04-10",
+    comorbidities: "pc",
+    admission_date: "2023-04-12T00:00:00",
+    is_active: true,
+    check_last_read: "2023-08-15T00:00:00",
+    created_at: "2023-06-16T16:37:55",
+    updated_at: "2023-06-21T15:23:11",
+    created_by: 1,
+    type: "adult",
+    height: "1,78",
+    weight: "89,9",
+    doctor_name: "Who",
+    bed: "1",
+    blood_type: "A+",
+    bed_obj: null,
+  };
+}
+const _patientList: IPatientData[] = Array.from({ length: 5 }, () =>
+  populateTable()
+);
