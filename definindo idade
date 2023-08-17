@@ -1,0 +1,26 @@
+ setAge(birth: string) {
+    // ? Obtém o ano, mês e dia da data de nascimento
+    const birthDate = new Date(birth);
+    const birthYear = birthDate.getFullYear();
+    const birthMonth = birthDate.getMonth() + 1; // Os meses em JavaScript são indexados de 0 a 11
+    const birthDay = birthDate.getDate();
+
+    // ? Obtém a data atual
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
+
+    // ? Calcula a idade
+    let age = currentYear - birthYear;
+
+    // ? Verifica se o aniversário deste ano já ocorreu
+    if (
+      currentMonth < birthMonth ||
+      (currentMonth === birthMonth && currentDay < birthDay)
+    ) {
+      age--;
+    }
+
+    return age;
+  }
