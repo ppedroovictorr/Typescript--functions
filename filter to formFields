@@ -1,0 +1,74 @@
+  filterListener() {
+     const value = this.filterForm.value;
+     const contact = value.contact ?? "";
+// #region reafctor to change parameters by one field
+     if (contact.includes("@")) {
+       console.log("É um email");
+     } else if (/^\d+$/.test(contact) && contact.length > 6) {
+       console.log("É um número de telefone");
+     } else if (/^\d+$/.test(contact) && contact.length < 6) {
+       console.log("É um ramal");
+     } else {
+       console.log("Formato inválido");
+     }
+  // #endregion
+     const keys = Object.keys(value);
+     console.log(value, " <----> ", keys);
+     keys.forEach((key) => {
+       if (!value[key as keyof typeof value]) {
+         delete value[key as keyof typeof value];
+       }
+     });
+     this.router.navigate(["/users/"], {
+       queryParams: {
+         ...value,
+         // department: this.getDepartmentId(String(value.department)),
+       },
+     });
+   }
+// an other way
+
+filterListener() {
+    const value = this.filterForm.value;
+    const contact = value.contact ?? "";
+
+    let queryParams = {};
+
+    if (
+      (/\d/.test(contact) &&
+        /[a-zA-Z]/.test(contact) &&
+        contact.includes("@")) ||
+      contact.includes(".") ||
+      contact.includes("_") ||
+      contact.includes("-")
+    ) {
+      queryParams = { ...queryParams, email: contact };
+      console.log("1", queryParams);
+    } else if (/^\d+$/.test(contact) && contact.length > 6) {
+      queryParams = { ...queryParams, phone: contact };
+      console.log("2", queryParams);
+    } else if (/^\d+$/.test(contact) && contact.length < 6) {
+      queryParams = { ...queryParams, extension: contact };
+      console.log("3", queryParams);
+    } else if (!contact) {
+      queryParams = { ...queryParams, extension: "", phone: "", email: "" };
+      console.log("4", queryParams);
+    } else {
+      this.snackbar.error("Formato inválido!");
+      return;
+    }
+
+    const keys = Object.keys(value);
+    keys.forEach((key) => {
+      if (!value[key as keyof typeof value]) {
+        delete value[key as keyof typeof value];
+      }
+    });
+
+    queryParams = { ...queryParams, ...value };
+    console.log("5", queryParams);
+
+    this.router.navigate(["/users/"], {
+      queryParams: queryParams,
+    });
+  }
