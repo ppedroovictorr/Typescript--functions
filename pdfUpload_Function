@@ -1,0 +1,37 @@
+
+to upload and read pdf file on page
+
+
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+
+export class MyClass implements OnInit {
+  constructor(
+    private sanitizer: DomSanitizer
+  ) {}
+
+pdfSrc: SafeResourceUrl = "";
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const unsafeUrl = reader.result as string;
+        this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+}
+
+HTML _> 
+  <div>
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf" />
+
+      <iframe
+        *ngIf="pdfSrc"
+        [src]="pdfSrc"
+        width="100%"
+        height="500px"
+      ></iframe>
+    </div>
